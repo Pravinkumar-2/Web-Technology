@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Map with Hotspots and Frames</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        h1 {
+            color: darkblue;
+            text-align: center;
+        }
+
+        .map-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        iframe {
+            border: 2px solid #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Interactive Map with Hotspots</h1>
+
+    <p style="text-align:center; font-size:16px; color:green;">
+        Click on different regions of the map to explore more.
+    </p>
+
+    <div class="map-container">
+        <img src="world-map.png" alt="World Map" usemap="#worldmap" width="500">
+
+        <map name="worldmap">
+            <area shape="rect" coords="50,150,150,250"
+                  href="https://en.wikipedia.org/wiki/North_America"
+                  target="contentFrame"
+                  alt="North America">
+
+            <area shape="rect" coords="200,200,300,300"
+                  href="https://en.wikipedia.org/wiki/Africa"
+                  target="contentFrame"
+                  alt="Africa">
+
+            <area shape="rect" coords="320,120,450,220"
+                  href="https://en.wikipedia.org/wiki/Asia"
+                  target="contentFrame"
+                  alt="Asia">
+        </map>
+    </div>
+
+    <br><br>
+
+    <div class="frame-container">
+        <iframe name="contentFrame" src="about:blank" width="80%" height="300">
+        </iframe>
+    </div>
+
+    <br>
+
+    <div class="links">
+        <a href="https://www.google.com" target="_blank">Visit Google</a> |
+        <a href="#top">Go to Top</a>
+    </div>
+
+</body>
+</html>

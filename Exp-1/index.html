@@ -1,68 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Map with Hotspots and Frames</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Chennai Interactive Map</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Embedded CSS -->
     <style>
         h1 {
-            color: darkblue;
             text-align: center;
+            color: #ffffff;
+            margin: 15px 0;
         }
 
-        .map-container {
-            text-align: center;
-            margin-top: 20px;
+        .selector {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
         }
 
-        iframe {
-            border: 2px solid #333;
+        .spot {
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px 16px;
+            background: linear-gradient(145deg, #ffdddd, #ffffff);
+            border-radius: 12px;
+            border: 2px solid #ff3d3d;
+            font-weight: bold;
+            text-decoration: none;
+            color: black;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.25);
+        }
+
+        .spot:hover {
+            transform: translateY(-3px);
+            box-shadow: 6px 6px 14px rgba(0,0,0,0.35);
+        }
+
+        .spot.back {
+            border-color: #2196f3;
+            background: linear-gradient(145deg, #d6ecff, #ffffff);
         }
     </style>
 </head>
 
 <body>
 
-    <h1>Interactive Map with Hotspots</h1>
+<h1>Chennai Interactive Map with Connected Hotspots</h1>
 
-    <p style="text-align:center; font-size:16px; color:green;">
-        Click on different regions of the map to explore more.
-    </p>
+<div class="layout">
 
-    <div class="map-container">
-        <img src="world-map.png" alt="World Map" usemap="#worldmap" width="500">
+    <!-- LEFT PANEL -->
+    <iframe src="left.html" class="side"></iframe>
 
-        <map name="worldmap">
-            <area shape="rect" coords="50,150,150,250"
-                  href="https://en.wikipedia.org/wiki/North_America"
-                  target="contentFrame"
-                  alt="North America">
+    <!-- CENTER -->
+    <div class="center">
 
-            <area shape="rect" coords="200,200,300,300"
-                  href="https://en.wikipedia.org/wiki/Africa"
-                  target="contentFrame"
-                  alt="Africa">
+        <!-- MAP 1 -->
+        <div class="card">
+            <h2>Chennai Region Map</h2>
 
-            <area shape="rect" coords="320,120,450,220"
-                  href="https://en.wikipedia.org/wiki/Asia"
-                  target="contentFrame"
-                  alt="Asia">
-        </map>
+            <iframe
+                name="mainMap"
+                src="https://www.google.com/maps?q=Chennai&z=11&output=embed"
+                class="map">
+            </iframe>
+        </div>
+
+        <!-- MAP 2 -->
+        <div class="card">
+            <h2>Chennai Hotspot Selector</h2>
+
+            <div class="selector">
+                <a class="spot"
+                   href="https://www.google.com/maps?q=Chennai+Central+Railway+Station&z=15&output=embed"
+                   target="mainMap">📍 Chennai Central</a>
+
+                <a class="spot"
+                   href="https://www.google.com/maps?q=Marina+Beach+Chennai&z=15&output=embed"
+                   target="mainMap">📍 Marina Beach</a>
+
+                <a class="spot"
+                   href="https://www.google.com/maps?q=IIT+Madras&z=15&output=embed"
+                   target="mainMap">📍 IIT Madras</a>
+
+                <a class="spot back"
+                   href="https://www.google.com/maps?q=Chennai&z=11&output=embed"
+                   target="mainMap">🔄 Back to Chennai View</a>
+            </div>
+
+            <p class="info">
+                Click a location to zoom the map. Use reset to return to Chennai view.
+            </p>
+        </div>
+
     </div>
 
-    <br><br>
+    <!-- RIGHT PANEL -->
+    <iframe src="right.html" class="side"></iframe>
 
-    <div class="frame-container">
-        <iframe name="contentFrame" src="about:blank" width="80%" height="300">
-        </iframe>
-    </div>
-
-    <br>
-
-    <div class="links">
-        <a href="https://www.google.com" target="_blank">Visit Google</a> |
-        <a href="#top">Go to Top</a>
-    </div>
+</div>
 
 </body>
 </html>

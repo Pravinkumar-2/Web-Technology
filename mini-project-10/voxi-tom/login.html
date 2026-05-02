@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PawPortal — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Nunito', sans-serif;
+    background: #a8d8f0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* SKY BACKGROUND with clouds */
+  .sky {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(180deg, #7ec8e3 0%, #b8e4f5 50%, #d6f0fa 100%);
+    z-index: 0;
+  }
+
+  .cloud {
+    position: absolute;
+    background: white;
+    border-radius: 50px;
+    opacity: 0.85;
+  }
+  .cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+  }
+  .cloud-1 { width: 160px; height: 50px; top: 8%; left: 5%; animation: drift 18s linear infinite; }
+  .cloud-1::before { width: 80px; height: 80px; top: -40px; left: 20px; }
+  .cloud-1::after  { width: 60px; height: 60px; top: -28px; left: 70px; }
+
+  .cloud-2 { width: 120px; height: 38px; top: 18%; right: 8%; animation: drift 24s linear infinite reverse; }
+  .cloud-2::before { width: 60px; height: 60px; top: -30px; left: 15px; }
+  .cloud-2::after  { width: 45px; height: 45px; top: -22px; left: 55px; }
+
+  .cloud-3 { width: 100px; height: 32px; top: 60%; left: 2%; animation: drift 20s linear infinite; opacity: 0.5; }
+  .cloud-3::before { width: 50px; height: 50px; top: -25px; left: 12px; }
+  .cloud-3::after  { width: 38px; height: 38px; top: -18px; left: 46px; }
+
+  .cloud-4 { width: 90px; height: 28px; bottom: 15%; right: 4%; animation: drift 22s linear infinite reverse; opacity: 0.5; }
+  .cloud-4::before { width: 45px; height: 45px; top: -22px; left: 10px; }
+  .cloud-4::after  { width: 34px; height: 34px; top: -16px; left: 40px; }
+
+  @keyframes drift {
+    0%   { transform: translateX(-30px); }
+    50%  { transform: translateX(30px); }
+    100% { transform: translateX(-30px); }
+  }
+
+  /* PAW PRINTS floating */
+  .paw {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.18;
+    animation: paw-float 6s ease-in-out infinite;
+  }
+  .paw:nth-child(1) { top: 12%; left: 12%; animation-delay: 0s;  font-size: 2.5rem; }
+  .paw:nth-child(2) { top: 30%; right: 10%; animation-delay: -2s; font-size: 1.8rem; }
+  .paw:nth-child(3) { bottom: 25%; left: 8%;  animation-delay: -4s; font-size: 2rem; }
+  .paw:nth-child(4) { bottom: 10%; right: 12%; animation-delay: -1s; font-size: 2.2rem; }
+  .paw:nth-child(5) { top: 55%; left: 20%;  animation-delay: -3s; font-size: 1.5rem; }
+  @keyframes paw-float {
+    0%, 100% { transform: translateY(0) rotate(0deg);   opacity: 0.18; }
+    50%       { transform: translateY(-14px) rotate(12deg); opacity: 0.28; }
+  }
+
+  /* BIRD */
+  .bird {
+    position: fixed;
+    top: 30px; right: 80px;
+    font-size: 3.5rem;
+    z-index: 10;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2));
+  }
+  @keyframes bird-bounce {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50%       { transform: translateY(-12px) rotate(5deg); }
+  }
+
+  /* MAIN CARD WRAPPER */
+  .card-wrap {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: flex-end;
+    gap: 0;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-radius: 28px;
+    padding: 38px 40px 36px;
+    width: 400px;
+    box-shadow:
+      0 8px 32px rgba(100,160,200,0.25),
+      0 2px 8px rgba(0,0,0,0.08),
+      inset 0 1px 0 rgba(255,255,255,0.9);
+    border: 2.5px solid rgba(255,255,255,0.7);
+    position: relative;
+    z-index: 2;
+    animation: card-in 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+  @keyframes card-in {
+    from { transform: scale(0.85) translateY(30px); opacity: 0; }
+    to   { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  /* CHARACTERS */
+  .char-wrap {
+    position: relative;
+    width: 700px; height: 400px;
+    flex-shrink: 0;
+    z-index: 3;
+    margin-right: -20px;
+    margin-bottom: -4px;
+    animation: chars-in 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.2s both;
+  }
+  @keyframes chars-in {
+    from { transform: translateY(60px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+  }
+  .cat-char {
+    position: absolute; bottom: 0; right: 0;
+    font-size: 15rem; line-height: 1;
+    animation: char-idle 3s ease-in-out infinite;
+    filter: drop-shadow(4px 8px 10px rgba(0,0,0,0.2));
+    transform-origin: bottom center;
+  }
+  .dog-char {
+    position: absolute; bottom: 0; left: 0;
+    font-size: 15rem; line-height: 1;
+    animation: char-idle 3s ease-in-out infinite reverse;
+    animation-delay: -1.5s;
+    filter: drop-shadow(4px 8px 10px rgba(0,0,0,0.2));
+    transform-origin: bottom center;
+  }
+  @keyframes char-idle {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50%       { transform: translateY(-8px) rotate(2deg); }
+  }
+
+  /* HEADER */
+  .logo-area { text-align: center; margin-bottom: 26px; }
+  .logo-icon {
+    font-size: 3rem; display: inline-block;
+    animation: spin-once 0.8s ease-out 0.3s both;
+  }
+  @keyframes spin-once {
+    from { transform: rotate(-180deg) scale(0); opacity: 0; }
+    to   { transform: rotate(0deg) scale(1); opacity: 1; }
+  }
+  .logo-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2.4rem; font-weight: 800;
+    color: #1e5a8a; line-height: 1;
+    margin-top: 4px; letter-spacing: -0.5px;
+  }
+  .logo-sub { font-size: 1.05rem; font-weight: 700; color: #4a9ec5; margin-top: 2px; }
+
+  /* INPUTS */
+  .input-group { position: relative; margin-bottom: 14px; }
+  .input-icon {
+    position: absolute; left: 14px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem; pointer-events: none;
+  }
+  input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 14px 16px 14px 44px;
+    border: 2.5px solid #c8e6f5;
+    border-radius: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem; font-weight: 600;
+    color: #2d5f7a; background: #f0faff;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  }
+  input:focus {
+    border-color: #4fb8e8;
+    box-shadow: 0 0 0 3px rgba(79,184,232,0.18);
+    transform: translateY(-1px);
+    background: white;
+  }
+  input::placeholder { color: #9ec8dc; font-weight: 600; }
+
+  /* ALERTS — replacing plain error/success divs */
+  .alert {
+    display: none;
+    margin-bottom: 14px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+    animation: alert-in 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes alert-in {
+    from { transform: scale(0.95) translateY(-6px); opacity: 0; }
+    to   { transform: scale(1) translateY(0); opacity: 1; }
+  }
+  .alert.error   { background: #fff0f0; border: 2px solid #ffb3b3; color: #c0392b; }
+  .alert.success { background: #f0fff6; border: 2px solid #81c784; color: #1e7a45; }
+
+  /* SIGNUP LINK */
+  .row-signup {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 0.92rem; font-weight: 700;
+    color: #7abdd8;
+  }
+  .row-signup a {
+    color: #3db868; text-decoration: none;
+    font-weight: 800;
+  }
+  .row-signup a:hover { text-decoration: underline; }
+
+  /* LOGIN BUTTON */
+  .btn-main {
+    width: 100%; padding: 15px;
+    background: #3db868; color: white;
+    border: none; border-radius: 16px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.35rem; font-weight: 700;
+    cursor: pointer; letter-spacing: 0.5px;
+    box-shadow: 0 5px 0 #2a9050, 0 8px 16px rgba(61,184,104,0.3);
+    transition: transform 0.12s, box-shadow 0.12s;
+    position: relative; overflow: hidden;
+  }
+  .btn-main:hover  { transform: translateY(-2px); box-shadow: 0 7px 0 #2a9050, 0 12px 20px rgba(61,184,104,0.35); }
+  .btn-main:active { transform: translateY(3px);  box-shadow: 0 2px 0 #2a9050, 0 4px 8px rgba(61,184,104,0.2); }
+  .btn-main::after {
+    content: ''; position: absolute;
+    top: 0; left: -100%;
+    width: 60px; height: 100%;
+    background: rgba(255,255,255,0.25);
+    transform: skewX(-20deg);
+    transition: left 0.5s;
+  }
+  .btn-main:hover::after { left: 120%; }
+  .btn-main:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+</style>
+</head>
+<body>
+
+<!-- SKY -->
+<div class="sky"></div>
+<div class="cloud cloud-1"></div>
+<div class="cloud cloud-2"></div>
+<div class="cloud cloud-3"></div>
+<div class="cloud cloud-4"></div>
+
+
+<!-- BIRD -->
+<div class="bird">
+  <img src="images/imm-Photoroom.png" class="logo" alt="Logo" style="width: 100%; max-width: 350px; max-height: 120px; object-fit: contain; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.25)); animation: float 4s ease-in-out infinite;">
+</div>
+
+<!-- CARD + CHARACTERS -->
+<div class="card-wrap">
+
+  <div class="card">
+    <div class="logo-area">
+      <div class="logo-icon">🐾</div>
+      <div class="logo-title">Voxi-Tom</div>
+      <div class="logo-sub">Welcome back, my Friend 🐱🐶</div>
+    </div>
+
+    <!-- ✅ ORIGINAL error/success divs kept with same IDs for your JS -->
+    <div id="errorMessage"   class="alert error"></div>
+    <div id="successMessage" class="alert success"></div>
+
+    <!-- ✅ ORIGINAL form kept with same IDs and action -->
+    <form id="loginForm">
+      <div class="input-group">
+        <span class="input-icon">👤</span>
+        <input type="text" id="username" name="username" placeholder="Username" required>
+      </div>
+      <div class="input-group">
+        <span class="input-icon">🔒</span>
+        <input type="password" id="password" name="password" placeholder="Pawword" required>
+      </div>
+
+      <button type="submit" class="btn-main">🐾 Log In</button>
+    </form>
+
+    <div class="row-signup">
+      No account? <a href="/signup">Sign up — it's free!</a>
+    </div>
+  </div>
+
+  <div class="char-wrap">
+  <img src="images/image-Photoroom (1).png"  style="width: 100%; max-width: 1200px; max-height: 1200px; object-fit: contain; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.25)); animation: float 4s ease-in-out infinite;">
+  </div>
+
+</div>
+
+<!-- ✅ ORIGINAL login JS — completely unchanged -->
+<script>
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+  const errorDiv   = document.getElementById("errorMessage");
+  const successDiv = document.getElementById("successMessage");
+
+  errorDiv.style.display   = "none";
+  successDiv.style.display = "none";
+
+  try {
+    const response = await fetch("/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password })
+    });
+    const data = await response.json();
+
+    if (response.ok) {
+      successDiv.textContent   = "🎉 Meow Meow! Login successful! Redirecting...";
+      successDiv.style.display = "block";
+      setTimeout(() => window.location.href = "/", 2000);
+    } else {
+      errorDiv.textContent   = "🐾 " + (data.error || "Login failed — wrong pawword?");
+      errorDiv.style.display = "block";
+    }
+  } catch (error) {
+    errorDiv.textContent   = "🚨 Error: " + error.message;
+    errorDiv.style.display = "block";
+  }
+});
+</script>
+
+</body>
+</html>
